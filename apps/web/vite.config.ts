@@ -1,15 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
+import { fileURLToPath, URL } from "node:url";
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-      "@asha/shared-types": path.resolve(
-        __dirname,
-        "../../packages/shared-types/src/index.ts"
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@asha/shared-types": fileURLToPath(
+        new URL(
+          "../../packages/shared-types/src/index.ts",
+          import.meta.url
+        )
       ),
     },
   },

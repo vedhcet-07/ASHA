@@ -7,7 +7,6 @@ import {
   SimpleGrid,
   Card,
   CardBody,
-  Badge,
 } from "@chakra-ui/react";
 import { Users, User, CheckSquare, Shield, ShoppingBag } from "lucide-react";
 import { useAuthStore } from "../../../lib/store";

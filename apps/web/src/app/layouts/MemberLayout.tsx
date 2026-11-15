@@ -1,4 +1,4 @@
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import {
   Box,
   Flex,
@@ -14,7 +14,6 @@ import {
   User,
 } from "lucide-react";
 import { useAuthStore } from "../../lib/store";
-import { clearAuthToken } from "../../lib/api";
 
 const navItems = [
   { icon: ClipboardList, label: "My Task", to: "/member" },

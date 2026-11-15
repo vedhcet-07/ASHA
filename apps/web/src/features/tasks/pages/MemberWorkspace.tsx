@@ -7,7 +7,6 @@ import {
   CardBody,
   HStack,
   Badge,
-  Button,
 } from "@chakra-ui/react";
 import { ClipboardList } from "lucide-react";
 import { useAuthStore } from "../../../lib/store";

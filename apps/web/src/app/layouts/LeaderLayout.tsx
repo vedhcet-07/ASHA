@@ -51,7 +51,7 @@ function NavItems({ onClose }: { onClose?: () => void }) {
           to={to}
           end={to === "/leader"}
           onClick={onClose}
-          style={({ isActive }) => ({
+          style={() => ({
             textDecoration: "none",
           })}
         >
