@@ -1,0 +1,862 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "0.1 Initialize Turborepo + pnpm monorepo": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662396313
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662424853
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662644031
+      }
+    ],
+    "0.2 Scaffold `apps/web` React + Vite project": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662396515
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662648297
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794664135290
+      }
+    ],
+    "0.3 Scaffold `apps/api` FastAPI project": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662396678
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662651610
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794664135746
+      }
+    ],
+    "0.4 Create `packages/shared-types`": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662396854
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794664139834
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794668824421
+      }
+    ],
+    "0.5 Create `packages/ui`, `packages/config`, and `packages/database`": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662397078
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794664143814
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794668829522
+      }
+    ],
+    "0.6 Create Supabase schema migrations (all 24 tables)": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662397278
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794668836145
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794669040423
+      }
+    ],
+    "0.7 Add Supabase Row-Level Security policies": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662397541
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794669044582
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794676379438
+      }
+    ],
+    "0.8 Implement `GET /health` endpoint": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662397726
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794669048265
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794676383574
+      }
+    ],
+    "0.9 Configure `core/schemas.py` standard response envelope": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662397941
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794669053598
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794676387793
+      }
+    ],
+    "0.10 Configure GitHub Actions CI pipeline": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662398116
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794669057216
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794676391564
+      }
+    ],
+    "0.11 Wire `pnpm dev` to start both apps concurrently": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662398294
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794669061561
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794676395222
+      }
+    ],
+    "1.1 Implement `core/security.py` JWT validation": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662398489
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794676402279
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794684187611
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794684192148
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794684412805
+      }
+    ],
+    "1.2 Implement `require_role()` dependency and RBAC middleware": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662398700
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794684417474
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794685083021
+      }
+    ],
+    "1.3 Implement Auth module — signup, login, role selection": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662398895
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794685088058
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794686818834
+      }
+    ],
+    "1.4 Implement SHG module — SHG CRUD": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662399055
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794685092582
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794686821342
+      }
+    ],
+    "1.5 Implement SHG module — member CRUD": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662399202
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794686826005
+      },
+      {
+        "executionId": "1ba58eb9-c587-48d2-bab9-944200235002",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794688393897
+      },
+      {
+        "executionId": "1ba58eb9-c587-48d2-bab9-944200235002",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794688398117
+      },
+      {
+        "executionId": "1ba58eb9-c587-48d2-bab9-944200235002",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794688826294
+      }
+    ],
+    "1.6 Implement member skills and availability": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662399501
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794686830263
+      },
+      {
+        "executionId": "1ba58eb9-c587-48d2-bab9-944200235002",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794688622430
+      },
+      {
+        "executionId": "1ba58eb9-c587-48d2-bab9-944200235002",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794688828685
+      }
+    ],
+    "1.7 Build Login, Signup, Role-Select, and SHG-Setup screens": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662399756
+      },
+      {
+        "executionId": "1ba58eb9-c587-48d2-bab9-944200235002",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794688834106
+      },
+      {
+        "executionId": "1ba58eb9-c587-48d2-bab9-944200235002",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794690037678
+      }
+    ],
+    "1.8 Implement role-based route guards in React Router": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662399937
+      },
+      {
+        "executionId": "1ba58eb9-c587-48d2-bab9-944200235002",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794688838291
+      },
+      {
+        "executionId": "1ba58eb9-c587-48d2-bab9-944200235002",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794690038049
+      }
+    ],
+    "1.9 Implement Zustand auth store": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662400179
+      },
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794676405552
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794683698312
+      },
+      {
+        "executionId": "805e7f84-4d0f-4810-b867-adabd3fdf84f",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794684411034
+      }
+    ],
+    "1.10 Write unit tests for Auth and SHG services": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662400351
+      },
+      {
+        "executionId": "1ba58eb9-c587-48d2-bab9-944200235002",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794690042083
+      }
+    ],
+    "2.1 Implement Order module — buyer order creation": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662400522
+      },
+      {
+        "executionId": "1ba58eb9-c587-48d2-bab9-944200235002",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794690045744
+      }
+    ],
+    "2.2 Implement buyer order status page endpoint": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662400674
+      },
+      {
+        "executionId": "c33c6351-7cce-4d0e-b168-cdfa6229e2ee",
+        "chatSessionId": "sess_499f63fe-1710-4656-ae8a-deb28683acac",
+        "timestamp": 1794730173043
+      }
+    ],
+    "2.3 Implement leader order review endpoints": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662400830
+      },
+      {
+        "executionId": "c33c6351-7cce-4d0e-b168-cdfa6229e2ee",
+        "chatSessionId": "sess_499f63fe-1710-4656-ae8a-deb28683acac",
+        "timestamp": 1794730177614
+      }
+    ],
+    "2.4 Implement leader direct order creation and edit": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662400985
+      },
+      {
+        "executionId": "c33c6351-7cce-4d0e-b168-cdfa6229e2ee",
+        "chatSessionId": "sess_499f63fe-1710-4656-ae8a-deb28683acac",
+        "timestamp": 1794730180405
+      }
+    ],
+    "2.5 Implement Audit_Service core": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662401151
+      }
+    ],
+    "2.6 Build Buyer order screens": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662401335
+      }
+    ],
+    "2.7 Build Leader orders screens": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662401562
+      }
+    ],
+    "2.8 Implement VoiceRecorder component for order creation": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662401782
+      }
+    ],
+    "2.9 Write unit tests for Order service state transitions": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662401974
+      }
+    ],
+    "3. Checkpoint — Phases 0–2": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662402178
+      }
+    ],
+    "4.1 Implement `rules/allocation.py` — pure allocation engine": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662402368
+      }
+    ],
+    "4.2 Write property tests for allocation engine (Property 1 and Property 2)": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662402578
+      }
+    ],
+    "4.3 Implement AI Service adapter": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662402806
+      }
+    ],
+    "4.4 Implement Planning Service": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662403005
+      }
+    ],
+    "4.5 Implement Allocation Service": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662403203
+      }
+    ],
+    "4.6 Implement Task_Service task creation": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662403483
+      }
+    ],
+    "4.7 Build Plan Review and Allocation screens": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662403727
+      }
+    ],
+    "4.8 Write unit tests for Planning and Allocation services": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662403922
+      }
+    ],
+    "4.9 Write property test for AI schema validation (Property 9)": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662404138
+      }
+    ],
+    "5.1 Implement member task list and detail endpoints": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662404304
+      }
+    ],
+    "5.2 Implement task accept/reject endpoints": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662404503
+      }
+    ],
+    "5.3 Implement progress update endpoint": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662404656
+      }
+    ],
+    "5.4 Implement proof upload flow": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662404814
+      }
+    ],
+    "5.5 Implement voice text endpoint for tasks": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662404965
+      }
+    ],
+    "5.6 Implement VoicePlayer component": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662405115
+      }
+    ],
+    "5.7 Build My Tasks and Task Detail screens": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662405279
+      }
+    ],
+    "5.8 Implement Supabase Realtime subscriptions": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662405470
+      }
+    ],
+    "5.9 Implement i18n structure": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662405638
+      }
+    ],
+    "5.10 Write unit and component tests for tasks and voice": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662405794
+      }
+    ],
+    "6.1 Implement quality review queue endpoint": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662405966
+      }
+    ],
+    "6.2 Implement quality decision endpoint": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662406131
+      }
+    ],
+    "6.3 Implement rework task creation": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662406278
+      }
+    ],
+    "6.4 Implement AI quality note draft": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662406539
+      }
+    ],
+    "6.5 Build Quality Review screens": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662406814
+      }
+    ],
+    "6.6 Write unit tests for Quality service": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662406978
+      }
+    ],
+    "7.1 Implement `rules/costing.py` — pure costing engine": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662407158
+      }
+    ],
+    "7.2 Write property tests for costing engine (Properties 3, 4, 5)": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662407334
+      }
+    ],
+    "7.3 Implement Costing Service and endpoints": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662407503
+      }
+    ],
+    "7.4 Build Costing Sheet screen": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662407680
+      }
+    ],
+    "8.1 Implement `rules/payout.py` — pure payout engine": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662407896
+      }
+    ],
+    "8.2 Write property tests for payout engine (Properties 6 and 7)": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662408050
+      }
+    ],
+    "8.3 Implement Payout Service — sheet creation and calculation": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662408216
+      }
+    ],
+    "8.4 Implement payout approval workflow": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662408371
+      }
+    ],
+    "8.5 Write property test for payout approval (Property 8)": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662408553
+      }
+    ],
+    "8.6 Build Payout screens": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662408713
+      }
+    ],
+    "8.7 Write unit tests for Payout service": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662408867
+      }
+    ],
+    "9. Checkpoint — Phases 3–7": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662409014
+      }
+    ],
+    "10.1 Implement buyer-safe status timeline endpoint": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662409194
+      }
+    ],
+    "10.2 Implement delivery record endpoint": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662409397
+      }
+    ],
+    "10.3 Build Buyer status and delivery screens": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662409561
+      }
+    ],
+    "10.4 Write unit tests for buyer delivery record": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662409722
+      }
+    ],
+    "11.1 Implement Notification_Service": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662409936
+      }
+    ],
+    "11.2 Implement delay detection worker": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662410103
+      }
+    ],
+    "11.3 Implement audit trail endpoint": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662410338
+      }
+    ],
+    "11.4 Implement basic reports endpoint": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662410703
+      }
+    ],
+    "11.5 Build Notifications panel": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662410917
+      }
+    ],
+    "11.6 Write unit tests for Notifications and Realtime fallback": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662411090
+      }
+    ],
+    "11.7 Write property test for RBAC (Property 10)": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662411329
+      }
+    ],
+    "12.1 Write deterministic seed script": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662412200
+      }
+    ],
+    "12.2 Verify seed idempotency": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662412737
+      }
+    ],
+    "12.3 Run full order-to-payout smoke test": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662413229
+      }
+    ],
+    "12.4 Final QA on mobile and desktop viewports": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662413874
+      }
+    ],
+    "12.5 Add SIMULATED badge to all payout and earnings UIs": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662414423
+      }
+    ],
+    "13. Final Checkpoint — Full Demo Flow": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794662415130
+      }
+    ],
+    "0. Phase 0 — Monorepo Setup and Infrastructure": [
+      {
+        "executionId": "40473382-b57a-4ad5-99ae-8201b4e29291",
+        "chatSessionId": "sess_0349fced-2b43-410f-9444-93b12a28e15a",
+        "timestamp": 1794676395478
+      }
+    ]
+  }
+}

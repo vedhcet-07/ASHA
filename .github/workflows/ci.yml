@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    name: Lint · Typecheck · Test · Build
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Node.js ───────────────────────────────────────────────────────────
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # ── pnpm ──────────────────────────────────────────────────────────────
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Get pnpm store path
+        id: pnpm-cache
+        run: echo "store=$(pnpm store path)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache pnpm node_modules
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.store }}
+          key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-${{ runner.os }}-
+
+      # ── Python ────────────────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ── uv ────────────────────────────────────────────────────────────────
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Cache uv pip cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-${{ hashFiles('apps/api/pyproject.toml') }}
+          restore-keys: |
+            uv-${{ runner.os }}-
+
+      # ── Step 1: Install JS dependencies ───────────────────────────────────
+      - name: pnpm install
+        run: pnpm install --frozen-lockfile
+
+      # ── Step 2: Install Python dependencies ───────────────────────────────
+      - name: uv sync (backend dependencies)
+        working-directory: apps/api
+        run: uv sync --all-extras
+
+      # ── Step 3: Lint (ESLint + Ruff) ──────────────────────────────────────
+      - name: pnpm lint (ESLint frontend)
+        run: pnpm lint
+
+      - name: Ruff lint (backend)
+        working-directory: apps/api
+        run: uv run ruff check .
+
+      # ── Step 4: TypeScript typecheck ──────────────────────────────────────
+      - name: pnpm typecheck
+        run: pnpm typecheck
+
+      # ── Step 5: Backend tests (pytest + PBT) ─────────────────────────────
+      - name: uv run pytest
+        working-directory: apps/api
+        run: uv run pytest tests
+
+      # ── Step 6: Frontend build ────────────────────────────────────────────
+      - name: pnpm build (web)
+        run: pnpm --filter web build

@@ -1,0 +1,72 @@
+{
+  "app": {
+    "name": "ASHA Platform",
+    "tagline": "Allocation, Shares & Honest Accounts"
+  },
+  "auth": {
+    "login": "Log in",
+    "logout": "Log out",
+    "signup": "Sign up",
+    "email": "Email address",
+    "password": "Password",
+    "selectRole": "Select your role",
+    "roles": {
+      "leader": "Leader",
+      "member": "Member",
+      "approver": "Approver",
+      "checker": "Checker",
+      "buyer": "Buyer"
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "tasks": "My Tasks",
+    "quality": "Quality",
+    "payouts": "Payouts",
+    "earnings": "Earnings"
+  },
+  "order": {
+    "status": {
+      "REQUESTED": "Requested",
+      "REVIEWED": "Reviewed",
+      "PLANNING": "Planning",
+      "ALLOCATION_PENDING": "Allocation Pending",
+      "IN_PROGRESS": "In Progress",
+      "QUALITY_REVIEW": "Quality Review",
+      "REWORK": "Rework",
+      "READY": "Ready",
+      "DELIVERED": "Delivered",
+      "CANCELLED": "Cancelled",
+      "COMPLETED": "Completed"
+    }
+  },
+  "task": {
+    "status": {
+      "PROPOSED": "Proposed",
+      "ASSIGNED": "Assigned",
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Rejected",
+      "IN_PROGRESS": "In Progress",
+      "SUBMITTED": "Submitted",
+      "QUALITY_REVIEW": "Quality Review",
+      "REWORK": "Rework",
+      "CANCELLED": "Cancelled"
+    },
+    "accept": "Accept task",
+    "reject": "Reject task",
+    "updateProgress": "Update progress",
+    "uploadProof": "Upload proof"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "noData": "No data yet"
+  }
+}
