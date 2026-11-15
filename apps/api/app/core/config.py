@@ -1,10 +1,6 @@
-"""Application settings loaded from environment variables via pydantic-settings."""
-
-from __future__ import annotations
+"""Application configuration loaded from environment variables."""
 
 from typing import Literal
-
-from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -16,40 +12,40 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
+    # App
+    app_env: Literal["development", "staging", "production"] = "development"
+    api_v1_prefix: str = "/api/v1"
+    cors_origins: str = "http://localhost:5173"
+
     # Supabase
-    supabase_url: str = Field(..., description="Supabase project URL")
-    supabase_service_role_key: str = Field(..., description="Supabase service-role secret key")
-    supabase_jwt_secret: str = Field(..., description="Supabase JWT signing secret")
+    supabase_url: str = ""
+    supabase_service_role_key: str = ""
+    supabase_jwt_secret: str = ""
+    supabase_storage_bucket: str = "proof-media"
 
     # AI
-    ai_provider: Literal["openai", "gemini", "anthropic", "groq", "ollama"] = Field(
-        default="openai", description="LLM provider to use"
-    )
-    ai_model: str = Field(default="gpt-4o-mini", description="Model name for the chosen provider")
+    ai_provider: Literal["openai", "gemini", "anthropic", "groq", "ollama"] = "openai"
+    ai_model: str = "gpt-4.1-mini"
+    openai_api_key: str = ""
+    gemini_api_key: str = ""
+    anthropic_api_key: str = ""
+    groq_api_key: str = ""
+    ollama_base_url: str = "http://localhost:11434"
 
-    # CORS — comma-separated list of allowed origins
-    cors_origins: list[str] = Field(
-        default=["http://localhost:5173"],
-        description="Comma-separated list of allowed CORS origins",
-    )
+    # Voice
+    voice_provider: str = "browser"
 
-    # Logging
-    log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
-        default="INFO", description="Minimum log level"
-    )
+    # Observability
+    sentry_dsn: str = ""
+    log_level: str = "INFO"
 
-    # Derived
     @property
-    def is_production(self) -> bool:
-        return self.log_level != "DEBUG"
+    def cors_origins_list(self) -> list[str]:
+        return [origin.strip() for origin in self.cors_origins.split(",")]
 
-    @field_validator("cors_origins", mode="before")
-    @classmethod
-    def parse_cors_origins(cls, value: str | list[str]) -> list[str]:
-        if isinstance(value, str):
-            return [origin.strip() for origin in value.split(",") if origin.strip()]
-        return value
+    @property
+    def is_development(self) -> bool:
+        return self.app_env == "development"
 
 
-# Module-level singleton — import and use `settings` everywhere.
-settings = Settings()  # type: ignore[call-arg]
+settings = Settings()

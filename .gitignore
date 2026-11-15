@@ -1,46 +1,56 @@
 # Dependencies
-node_modules/
-
-# Environment variables
-.env
-.env.local
-.env.*.local
+node_modules
+.pnp
+.pnp.js
 
 # Build outputs
-dist/
-build/
-.next/
-out/
+dist
+build
+.next
+out
 
 # Python
-__pycache__/
+__pycache__
 *.pyc
 *.pyo
 *.pyd
-.pytest_cache/
-.ruff_cache/
-*.egg-info/
-.venv/
-venv/
+.Python
+env
+.venv
+venv
+*.egg-info
+.eggs
 
-# Turborepo
-.turbo/
+# uv
+.uv
 
-# Editor directories
-.vscode/
-.idea/
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Turbo
+.turbo
+
+# IDE
+.vscode
+.idea
 *.swp
 *.swo
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
 
 # Logs
 *.log
-npm-debug.log*
-pnpm-debug.log*
+logs
 
-# TypeScript project references build output
-dist-node/
-*.tsbuildinfo
+# Test coverage
+coverage
+.coverage
+htmlcov
+
+# Sentry
+.sentryclirc

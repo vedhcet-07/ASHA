@@ -2,9 +2,9 @@
   "name": "@asha/config",
   "version": "0.1.0",
   "private": true,
-  "exports": {
-    "./eslint": "./eslint.config.js",
-    "./tsconfig": "./tsconfig.base.json",
-    "./tailwind": "./tailwind.config.js"
-  }
+  "files": [
+    "eslint",
+    "typescript",
+    "tailwind"
+  ]
 }

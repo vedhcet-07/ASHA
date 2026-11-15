@@ -1,16 +1,22 @@
 {
-  "name": "asha-platform",
-  "version": "0.1.0",
+  "name": "asha",
   "private": true,
-  "packageManager": "pnpm@9",
   "scripts": {
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "lint": "turbo lint",
-    "typecheck": "turbo typecheck",
-    "test": "turbo test"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "clean": "turbo run clean"
   },
   "devDependencies": {
-    "turbo": "^2.0.0"
-  }
+    "turbo": "^2.3.3",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@12.18.0"
 }
