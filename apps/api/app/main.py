@@ -15,6 +15,9 @@ from app.modules.auth.router import router as auth_router
 from app.modules.shg.router import router as shg_router
 from app.modules.orders.router import router as orders_router
 from app.modules.planning.router import router as planning_router
+from app.modules.tasks.router import router as tasks_router
+from app.modules.quality.router import router as quality_router
+from app.modules.costing.router import router as costing_router
 
 configure_logging()
 
@@ -50,6 +53,9 @@ app.include_router(auth_router, prefix=settings.api_v1_prefix)
 app.include_router(shg_router, prefix=settings.api_v1_prefix)
 app.include_router(orders_router, prefix=settings.api_v1_prefix)
 app.include_router(planning_router, prefix=settings.api_v1_prefix)
+app.include_router(tasks_router, prefix=settings.api_v1_prefix)
+app.include_router(quality_router, prefix=settings.api_v1_prefix)
+app.include_router(costing_router, prefix=settings.api_v1_prefix)
 
 
 # ─────────────────────────────────────

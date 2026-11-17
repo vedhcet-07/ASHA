@@ -31,8 +31,12 @@ import { OrderDetailPage } from "./features/orders/pages/OrderDetailPage";
 import { PlanReviewPage }   from "./features/allocation/pages/PlanReviewPage";
 import { AllocationPage }   from "./features/allocation/pages/AllocationPage";
 
+// Leader — Quality & Costing
+import { QualityQueuePage } from "./features/quality/pages/QualityQueuePage";
+import { CostingPage }      from "./features/costing/pages/CostingPage";
+
 // Member
-import { MemberWorkspace } from "./features/tasks/pages/MemberWorkspace";
+import { MyTaskPage }       from "./features/tasks/pages/MyTaskPage";
 
 // Buyer
 import { BuyerCreateOrderPage } from "./features/buyer/pages/BuyerCreateOrderPage";
@@ -71,11 +75,13 @@ export default function App() {
               <Route path="orders/:orderId"       element={<OrderDetailPage />} />
               <Route path="orders/:orderId/plan"       element={<PlanReviewPage />} />
               <Route path="orders/:orderId/allocation" element={<AllocationPage />} />
+              <Route path="quality"                    element={<QualityQueuePage />} />
+              <Route path="orders/:orderId/costing"    element={<CostingPage />} />
             </Route>
 
             {/* Member routes */}
             <Route path="/member" element={<RequireAuth><RequireRole role="member"><MemberLayout /></RequireRole></RequireAuth>}>
-              <Route index element={<MemberWorkspace />} />
+              <Route index element={<MyTaskPage />} />
             </Route>
 
             {/* Buyer routes */}

@@ -117,6 +117,12 @@ export function OrderDetailPage() {
           Mark delivered
         </Button>
       )}
+      {order.status === "ALLOCATION_PENDING" || order.status === "IN_PROGRESS" || order.status === "QUALITY_REVIEW" || order.status === "READY" ? (
+        <Button size="sm" variant="outline" colorScheme="teal"
+          onClick={() => navigate(`/leader/orders/${orderId}/costing`)}>
+          View / edit costing
+        </Button>
+      ) : null}
 
       {/* Status timeline */}
       <Card borderRadius="card">
