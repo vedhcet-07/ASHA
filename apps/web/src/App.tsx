@@ -10,10 +10,10 @@ import { LeaderLayout } from "./app/layouts/LeaderLayout";
 import { MemberLayout } from "./app/layouts/MemberLayout";
 import { BuyerLayout }  from "./app/layouts/BuyerLayout";
 
-// Auth pages
-import { LoginPage }         from "./features/auth/pages/LoginPage";
-import { SignupPage }         from "./features/auth/pages/SignupPage";
-import { RoleSelectionPage }  from "./features/auth/pages/RoleSelectionPage";
+// Auth
+import { LoginPage }        from "./features/auth/pages/LoginPage";
+import { SignupPage }        from "./features/auth/pages/SignupPage";
+import { RoleSelectionPage } from "./features/auth/pages/RoleSelectionPage";
 
 // Leader — SHG
 import { LeaderDashboard }  from "./features/shg/pages/LeaderDashboard";
@@ -28,20 +28,27 @@ import { CreateOrderPage } from "./features/orders/pages/CreateOrderPage";
 import { OrderDetailPage } from "./features/orders/pages/OrderDetailPage";
 
 // Leader — Planning & Allocation
-import { PlanReviewPage }   from "./features/allocation/pages/PlanReviewPage";
-import { AllocationPage }   from "./features/allocation/pages/AllocationPage";
+import { PlanReviewPage } from "./features/allocation/pages/PlanReviewPage";
+import { AllocationPage } from "./features/allocation/pages/AllocationPage";
 
-// Leader — Quality & Costing
+// Leader — Quality, Costing, Payouts, Reports
 import { QualityQueuePage } from "./features/quality/pages/QualityQueuePage";
 import { CostingPage }      from "./features/costing/pages/CostingPage";
+import { PayoutSheetPage }  from "./features/payouts/pages/PayoutSheetPage";
+import { ReportsPage }      from "./features/reports/pages/ReportsPage";
+
+// Approver
+import { ApproverPayoutPage } from "./features/payouts/pages/ApproverPayoutPage";
 
 // Member
-import { MyTaskPage }       from "./features/tasks/pages/MyTaskPage";
+import { MyTaskPage }     from "./features/tasks/pages/MyTaskPage";
+import { MyEarningsPage } from "./features/tasks/pages/MyEarningsPage";
 
 // Buyer
 import { BuyerCreateOrderPage } from "./features/buyer/pages/BuyerCreateOrderPage";
 import { BuyerOrdersPage }      from "./features/buyer/pages/BuyerOrdersPage";
 import { BuyerOrderStatusPage } from "./features/buyer/pages/BuyerOrderStatusPage";
+import { BuyerDeliveryPage }    from "./features/buyer/pages/BuyerDeliveryPage";
 
 // Guards
 import { RequireAuth } from "./app/routes/RequireAuth";
@@ -66,30 +73,40 @@ export default function App() {
 
             {/* Leader routes */}
             <Route path="/leader" element={<RequireAuth><RequireRole role="leader"><LeaderLayout /></RequireRole></RequireAuth>}>
-              <Route index                        element={<LeaderDashboard />} />
-              <Route path="members"               element={<MembersListPage />} />
-              <Route path="members/add"           element={<AddMemberPage />} />
-              <Route path="members/:memberId"     element={<MemberDetailPage />} />
-              <Route path="orders"                element={<OrdersListPage />} />
-              <Route path="orders/create"         element={<CreateOrderPage />} />
-              <Route path="orders/:orderId"       element={<OrderDetailPage />} />
+              <Route index                             element={<LeaderDashboard />} />
+              <Route path="members"                    element={<MembersListPage />} />
+              <Route path="members/add"                element={<AddMemberPage />} />
+              <Route path="members/:memberId"          element={<MemberDetailPage />} />
+              <Route path="orders"                     element={<OrdersListPage />} />
+              <Route path="orders/create"              element={<CreateOrderPage />} />
+              <Route path="orders/:orderId"            element={<OrderDetailPage />} />
               <Route path="orders/:orderId/plan"       element={<PlanReviewPage />} />
               <Route path="orders/:orderId/allocation" element={<AllocationPage />} />
-              <Route path="quality"                    element={<QualityQueuePage />} />
               <Route path="orders/:orderId/costing"    element={<CostingPage />} />
+              <Route path="orders/:orderId/payout"     element={<PayoutSheetPage />} />
+              <Route path="quality"                    element={<QualityQueuePage />} />
+              <Route path="reports"                    element={<ReportsPage />} />
+            </Route>
+
+            {/* Approver routes */}
+            <Route path="/approver" element={<RequireAuth><RequireRole role="approver"><LeaderLayout /></RequireRole></RequireAuth>}>
+              <Route index                             element={<Navigate to="/approver/orders" replace />} />
+              <Route path="payout-review/:orderId"    element={<ApproverPayoutPage />} />
             </Route>
 
             {/* Member routes */}
             <Route path="/member" element={<RequireAuth><RequireRole role="member"><MemberLayout /></RequireRole></RequireAuth>}>
-              <Route index element={<MyTaskPage />} />
+              <Route index          element={<MyTaskPage />} />
+              <Route path="earnings" element={<MyEarningsPage />} />
             </Route>
 
             {/* Buyer routes */}
             <Route path="/buyer" element={<RequireAuth><RequireRole role="buyer"><BuyerLayout /></RequireRole></RequireAuth>}>
-              <Route index                        element={<Navigate to="/buyer/orders" replace />} />
-              <Route path="create-order"          element={<BuyerCreateOrderPage />} />
-              <Route path="orders"                element={<BuyerOrdersPage />} />
-              <Route path="orders/:orderId"       element={<BuyerOrderStatusPage />} />
+              <Route index                            element={<Navigate to="/buyer/orders" replace />} />
+              <Route path="create-order"              element={<BuyerCreateOrderPage />} />
+              <Route path="orders"                    element={<BuyerOrdersPage />} />
+              <Route path="orders/:orderId"           element={<BuyerOrderStatusPage />} />
+              <Route path="orders/:orderId/delivery"  element={<BuyerDeliveryPage />} />
             </Route>
 
             <Route path="/"  element={<Navigate to="/login" replace />} />

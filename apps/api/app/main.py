@@ -18,6 +18,7 @@ from app.modules.planning.router import router as planning_router
 from app.modules.tasks.router import router as tasks_router
 from app.modules.quality.router import router as quality_router
 from app.modules.costing.router import router as costing_router
+from app.modules.payouts.router import router as payouts_router
 
 configure_logging()
 
@@ -56,6 +57,7 @@ app.include_router(planning_router, prefix=settings.api_v1_prefix)
 app.include_router(tasks_router, prefix=settings.api_v1_prefix)
 app.include_router(quality_router, prefix=settings.api_v1_prefix)
 app.include_router(costing_router, prefix=settings.api_v1_prefix)
+app.include_router(payouts_router, prefix=settings.api_v1_prefix)
 
 
 # ─────────────────────────────────────
