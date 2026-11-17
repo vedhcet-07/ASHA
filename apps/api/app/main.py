@@ -14,6 +14,7 @@ from app.core.errors import (
 from app.modules.auth.router import router as auth_router
 from app.modules.shg.router import router as shg_router
 from app.modules.orders.router import router as orders_router
+from app.modules.planning.router import router as planning_router
 
 configure_logging()
 
@@ -48,6 +49,7 @@ app.add_exception_handler(AshaAPIError, asha_api_error_handler)
 app.include_router(auth_router, prefix=settings.api_v1_prefix)
 app.include_router(shg_router, prefix=settings.api_v1_prefix)
 app.include_router(orders_router, prefix=settings.api_v1_prefix)
+app.include_router(planning_router, prefix=settings.api_v1_prefix)
 
 
 # ─────────────────────────────────────

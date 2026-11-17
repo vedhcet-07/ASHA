@@ -27,6 +27,10 @@ import { OrdersListPage }  from "./features/orders/pages/OrdersListPage";
 import { CreateOrderPage } from "./features/orders/pages/CreateOrderPage";
 import { OrderDetailPage } from "./features/orders/pages/OrderDetailPage";
 
+// Leader — Planning & Allocation
+import { PlanReviewPage }   from "./features/allocation/pages/PlanReviewPage";
+import { AllocationPage }   from "./features/allocation/pages/AllocationPage";
+
 // Member
 import { MemberWorkspace } from "./features/tasks/pages/MemberWorkspace";
 
@@ -65,6 +69,8 @@ export default function App() {
               <Route path="orders"                element={<OrdersListPage />} />
               <Route path="orders/create"         element={<CreateOrderPage />} />
               <Route path="orders/:orderId"       element={<OrderDetailPage />} />
+              <Route path="orders/:orderId/plan"       element={<PlanReviewPage />} />
+              <Route path="orders/:orderId/allocation" element={<AllocationPage />} />
             </Route>
 
             {/* Member routes */}

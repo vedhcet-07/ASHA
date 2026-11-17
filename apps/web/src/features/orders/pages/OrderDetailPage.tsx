@@ -99,6 +99,18 @@ export function OrderDetailPage() {
           </Button>
         </HStack>
       )}
+      {order.status === "REVIEWED" && (
+        <Button leftIcon={<CheckCircle size={16} />} colorScheme="blue" maxW="220px"
+          onClick={() => navigate(`/leader/orders/${orderId}/plan`)}>
+          Generate production plan
+        </Button>
+      )}
+      {order.status === "PLANNING" && (
+        <Button leftIcon={<CheckCircle size={16} />} colorScheme="purple" maxW="220px"
+          onClick={() => navigate(`/leader/orders/${orderId}/allocation`)}>
+          Propose allocation
+        </Button>
+      )}
       {order.status === "READY" && (
         <Button leftIcon={<Truck size={16} />} colorScheme="teal" maxW="200px"
           isLoading={deliverMutation.isPending} onClick={() => deliverMutation.mutate()}>
