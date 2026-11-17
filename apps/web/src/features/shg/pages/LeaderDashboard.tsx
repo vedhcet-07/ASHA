@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { api } from "../../../lib/api";
 import { useAuthStore } from "../../../lib/store";
 import type { SHGMember } from "@asha/shared-types";
+import type { Order } from "@asha/shared-types";
 
 function StatCard({
   icon: Icon,
@@ -64,8 +65,15 @@ export function LeaderDashboard() {
       api.get<{ success: boolean; data: SHGMember[] }>("/shgs/current/members"),
   });
 
+  const { data: ordersData } = useQuery({
+    queryKey: ["orders"],
+    queryFn: () => api.get<{ success: boolean; data: Order[] }>("/orders"),
+  });
+
   const members = membersData?.data ?? [];
   const activeMembers = members.filter((m) => m.is_active);
+  const orders = ordersData?.data ?? [];
+  const activeOrders = orders.filter(o => !["COMPLETED","CANCELLED"].includes(o.status));
   const unavailableMembers = members.filter(
     (m) => m.availability_status === "unavailable"
   );
@@ -100,12 +108,7 @@ export function LeaderDashboard() {
             value={activeMembers.length}
             color="primary"
           />
-          <StatCard
-            icon={ShoppingBag}
-            label="Active orders"
-            value={0}
-            color="blue"
-          />
+          <StatCard icon={ShoppingBag} label="Active orders" value={activeOrders.length} color="blue" />
           <StatCard
             icon={CheckSquare}
             label="Pending quality reviews"
@@ -157,7 +160,7 @@ export function LeaderDashboard() {
             >
               Add member
             </Button>
-            <Button size="sm" variant="outline" leftIcon={<ShoppingBag size={14} />}>
+            <Button as={Link} to="/leader/orders/create" size="sm" variant="outline" leftIcon={<ShoppingBag size={14} />}>
               Create order
             </Button>
           </HStack>
