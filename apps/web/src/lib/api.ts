@@ -1,19 +1,29 @@
 /**
  * Base API client for ASHA backend.
+ * Reads the access token from the Zustand persisted store (asha-auth in localStorage).
  */
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
 
 function getAuthToken(): string | null {
-  return localStorage.getItem("asha_access_token");
+  // Read from Zustand persist storage — single source of truth
+  try {
+    const raw = localStorage.getItem("asha-auth");
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed?.state?.accessToken ?? null;
+  } catch {
+    return null;
+  }
 }
 
 export function setAuthToken(token: string): void {
-  localStorage.setItem("asha_access_token", token);
+  // No-op — token is managed by Zustand store via setAuth()
+  // Kept for backwards compatibility in case any code still calls it
 }
 
 export function clearAuthToken(): void {
-  localStorage.removeItem("asha_access_token");
+  // No-op — token is cleared by Zustand store via clearAuth()
 }
 
 async function request<T>(
@@ -39,7 +49,7 @@ async function request<T>(
 
   if (!response.ok) {
     const error = new Error(
-      data?.error?.message || `Request failed: ${response.status}`
+      data?.error?.message || data?.detail || `Request failed: ${response.status}`
     );
     (error as Error & { code?: string }).code = data?.error?.code;
     throw error;
