@@ -19,36 +19,49 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 async def signup(body: SignupRequest, auth_db: SupabaseAnonClient, db: SupabaseClient):
     """
     Create a new user account and profile.
-    auth_db uses the publishable key for Supabase Auth.
-    db uses the service role key for inserting the profile record.
+    auth_db (anon key) handles Supabase Auth.
+    db (service role) inserts the profile record.
     """
     try:
         auth_response = auth_db.auth.sign_up(
             {"email": body.email, "password": body.password}
         )
     except AuthApiError as exc:
+        err_msg = str(exc).lower()
+        # Rate limit hit
+        if "429" in str(exc) or "rate" in err_msg or "too many" in err_msg:
+            raise HTTPException(
+                status_code=429,
+                detail="Too many signup attempts. Please wait a few minutes and try again."
+            ) from exc
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
     if not auth_response.user:
-        raise HTTPException(status_code=400, detail="Signup failed")
+        raise HTTPException(status_code=400, detail="Signup failed — please try again.")
 
     user_id = auth_response.user.id
 
-    # Insert profile using service-role client (bypasses RLS for initial insert)
-    profile_data = {
-        "id": user_id,
-        "full_name": body.full_name,
-        "phone_number": body.phone_number,
-        "role": body.role,
-        "preferred_language": body.preferred_language,
-    }
-    db.table("profiles").insert(profile_data).execute()
+    # Check if profile already exists (idempotent — safe to call twice)
+    existing = db.table("profiles").select("id").eq("id", user_id).execute()
+    if not existing.data:
+        profile_data = {
+            "id": user_id,
+            "full_name": body.full_name,
+            "phone_number": body.phone_number,
+            "role": body.role,
+            "preferred_language": body.preferred_language,
+        }
+        try:
+            db.table("profiles").insert(profile_data).execute()
+        except Exception:
+            # Profile already exists — ignore duplicate key
+            pass
 
     return success_response(
         {
             "user_id": user_id,
             "email": body.email,
-            "message": "Account created. Please check your email to confirm your account.",
+            "message": "Account created successfully. You can now log in.",
         }
     )
 
@@ -57,33 +70,44 @@ async def signup(body: SignupRequest, auth_db: SupabaseAnonClient, db: SupabaseC
 async def login(body: LoginRequest, auth_db: SupabaseAnonClient, db: SupabaseClient):
     """
     Login with email and password.
-    auth_db uses the publishable key — required by Supabase for sign_in_with_password.
-    db uses the service role key to fetch the profile.
+    auth_db (anon key) is required by Supabase for sign_in_with_password.
     """
     try:
         auth_response = auth_db.auth.sign_in_with_password(
             {"email": body.email, "password": body.password}
         )
     except AuthApiError as exc:
+        err_msg = str(exc).lower()
+        if "email not confirmed" in err_msg:
+            raise HTTPException(
+                status_code=401,
+                detail="Email not confirmed. Please check your inbox and confirm your email, or disable email confirmation in your Supabase project (Authentication → Providers → Email → turn off Confirm email)."
+            ) from exc
+        if "invalid" in err_msg or "credentials" in err_msg or "400" in str(exc):
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid email or password."
+            ) from exc
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
+            status_code=401, detail=f"Login failed: {exc}"
         ) from exc
 
     if not auth_response.session or not auth_response.user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Login failed"
-        )
+        raise HTTPException(status_code=401, detail="Login failed.")
 
     user_id = auth_response.user.id
     access_token = auth_response.session.access_token
 
-    # Fetch profile using service-role client
+    # Fetch profile
     profile_result = (
         db.table("profiles").select("*").eq("id", user_id).single().execute()
     )
 
     if not profile_result.data:
-        raise HTTPException(status_code=404, detail="Profile not found")
+        raise HTTPException(
+            status_code=404,
+            detail="Account exists but profile is missing. Please sign up again."
+        )
 
     return success_response(
         {
@@ -100,7 +124,7 @@ async def logout(token: CurrentToken, auth_db: SupabaseAnonClient):
     try:
         auth_db.auth.sign_out()
     except Exception:
-        pass  # Best effort
+        pass
     return success_response({"message": "Logged out"})
 
 
@@ -114,13 +138,12 @@ async def get_me(token: CurrentToken, db: SupabaseClient):
     if not profile_result.data:
         raise AshaAPIError(
             code="NOT_FOUND",
-            message="Profile not found. Please complete your profile.",
+            message="Profile not found.",
             status_code=404,
         )
 
     profile = profile_result.data
 
-    # Check SHG membership
     membership_result = (
         db.table("shg_members")
         .select("id, shg_id, shgs(id, name)")
@@ -139,45 +162,21 @@ async def get_me(token: CurrentToken, db: SupabaseClient):
             "shg_name": member.get("shgs", {}).get("name") if member.get("shgs") else None,
         }
 
-    return success_response(
-        {
-            "profile": profile,
-            "shg": shg_info,
-        }
-    )
+    return success_response({"profile": profile, "shg": shg_info})
 
 
 @router.patch("/me")
-async def update_me(
-    body: UpdateProfileRequest, token: CurrentToken, db: SupabaseClient
-):
+async def update_me(body: UpdateProfileRequest, token: CurrentToken, db: SupabaseClient):
     """Update current user's profile."""
     updates = body.model_dump(exclude_none=True)
     if not updates:
         raise AshaAPIError(code="VALIDATION_ERROR", message="Nothing to update")
-
-    result = (
-        db.table("profiles")
-        .update(updates)
-        .eq("id", token.sub)
-        .single()
-        .execute()
-    )
-
+    result = db.table("profiles").update(updates).eq("id", token.sub).single().execute()
     return success_response(result.data)
 
 
 @router.post("/select-role")
-async def select_role(
-    body: SelectRoleRequest, token: CurrentToken, db: SupabaseClient
-):
+async def select_role(body: SelectRoleRequest, token: CurrentToken, db: SupabaseClient):
     """Update the active role for a user."""
-    result = (
-        db.table("profiles")
-        .update({"role": body.role})
-        .eq("id", token.sub)
-        .single()
-        .execute()
-    )
-
+    result = db.table("profiles").update({"role": body.role}).eq("id", token.sub).single().execute()
     return success_response({"role": body.role, "profile": result.data})
