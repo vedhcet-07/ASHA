@@ -3,7 +3,7 @@
 from fastapi import APIRouter, HTTPException, status
 from supabase import AuthApiError
 
-from app.core.dependencies import SupabaseClient, CurrentToken, success_response
+from app.core.dependencies import SupabaseClient, SupabaseAnonClient, CurrentToken, success_response
 from app.core.errors import AshaAPIError
 from .schemas import (
     SignupRequest,
@@ -16,10 +16,14 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @router.post("/signup", status_code=status.HTTP_201_CREATED)
-async def signup(body: SignupRequest, db: SupabaseClient):
-    """Create a new user account and profile."""
+async def signup(body: SignupRequest, auth_db: SupabaseAnonClient, db: SupabaseClient):
+    """
+    Create a new user account and profile.
+    auth_db uses the publishable key for Supabase Auth.
+    db uses the service role key for inserting the profile record.
+    """
     try:
-        auth_response = db.auth.sign_up(
+        auth_response = auth_db.auth.sign_up(
             {"email": body.email, "password": body.password}
         )
     except AuthApiError as exc:
@@ -30,7 +34,7 @@ async def signup(body: SignupRequest, db: SupabaseClient):
 
     user_id = auth_response.user.id
 
-    # Create profile record
+    # Insert profile using service-role client (bypasses RLS for initial insert)
     profile_data = {
         "id": user_id,
         "full_name": body.full_name,
@@ -50,10 +54,14 @@ async def signup(body: SignupRequest, db: SupabaseClient):
 
 
 @router.post("/login")
-async def login(body: LoginRequest, db: SupabaseClient):
-    """Login with email and password."""
+async def login(body: LoginRequest, auth_db: SupabaseAnonClient, db: SupabaseClient):
+    """
+    Login with email and password.
+    auth_db uses the publishable key — required by Supabase for sign_in_with_password.
+    db uses the service role key to fetch the profile.
+    """
     try:
-        auth_response = db.auth.sign_in_with_password(
+        auth_response = auth_db.auth.sign_in_with_password(
             {"email": body.email, "password": body.password}
         )
     except AuthApiError as exc:
@@ -69,7 +77,7 @@ async def login(body: LoginRequest, db: SupabaseClient):
     user_id = auth_response.user.id
     access_token = auth_response.session.access_token
 
-    # Fetch profile
+    # Fetch profile using service-role client
     profile_result = (
         db.table("profiles").select("*").eq("id", user_id).single().execute()
     )
@@ -87,10 +95,10 @@ async def login(body: LoginRequest, db: SupabaseClient):
 
 
 @router.post("/logout")
-async def logout(token: CurrentToken, db: SupabaseClient):
+async def logout(token: CurrentToken, auth_db: SupabaseAnonClient):
     """End the current session."""
     try:
-        db.auth.sign_out()
+        auth_db.auth.sign_out()
     except Exception:
         pass  # Best effort
     return success_response({"message": "Logged out"})
@@ -163,7 +171,7 @@ async def update_me(
 async def select_role(
     body: SelectRoleRequest, token: CurrentToken, db: SupabaseClient
 ):
-    """Update the active role for a user (must be a valid role for this user)."""
+    """Update the active role for a user."""
     result = (
         db.table("profiles")
         .update({"role": body.role})
