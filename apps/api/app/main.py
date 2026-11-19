@@ -64,6 +64,7 @@ app.include_router(payouts_router, prefix=settings.api_v1_prefix)
 # Health check
 # ─────────────────────────────────────
 @app.get("/health", tags=["system"])
+@app.get("/api/health", tags=["system"])
 async def health():
     return {
         "status": "ok",
