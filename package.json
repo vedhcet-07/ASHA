@@ -1,6 +1,9 @@
 {
   "name": "asha",
   "private": true,
+  "license": "MIT",
+  "repository": {"type": "git", "url": "git+https://github.com/yourorg/asha.git"},
+  "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",

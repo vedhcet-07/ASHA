@@ -1,0 +1,31 @@
+site_name: ASHA Documentation
+site_description: Allocation, Shares & Honest Accounts — Documentation Hub
+theme:
+  name: material
+  palette:
+    primary: teal
+    accent: amber
+
+docs_dir: docs
+
+nav:
+  - Home: index.md
+  - Overview: README.md
+  - Build Plan: BUILD_PLAN.md
+  - Phase Summaries:
+      - Phase 1: PHASE_1_SUMMARY.md
+      - Phase 2: PHASE_2_SUMMARY.md
+      - Phase 3: PHASE_3_SUMMARY.md
+      - Phase 4: PHASE_4_SUMMARY.md
+      - Phase 5: PHASE_5_SUMMARY.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - tables
+  - toc:
+      permalink: true
+

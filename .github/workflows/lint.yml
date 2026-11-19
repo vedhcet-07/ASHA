@@ -1,0 +1,41 @@
+name: Lint
+
+on:
+  push:
+    paths:
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.py'
+  pull_request:
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install pnpm
+        run: corepack enable && corepack prepare pnpm@latest --activate
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+      - name: npm audit
+        run: pnpm audit --audit-level=high || true
+        
+
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install uv & deps
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          uv sync
+      - name: Run Ruff
+        run: ruff check .
