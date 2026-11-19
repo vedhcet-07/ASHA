@@ -1,0 +1,13 @@
+{
+  "name": "@asha/config",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./eslint": "./eslint/index.js",
+    "./typescript/base": "./typescript/base.json",
+    "./tailwind/base": "./tailwind/base.js"
+  },
+  "scripts": {
+    "clean": "rm -rf .turbo"
+  }
+}

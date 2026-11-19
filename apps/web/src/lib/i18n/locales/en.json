@@ -1,0 +1,19 @@
+{
+  "app_name": "ASHA",
+  "tagline": "Fair work. Clear costs. Trusted payouts.",
+  "roles": {
+    "leader": "SHG Leader",
+    "member": "SHG Member",
+    "approver": "Group Approver",
+    "checker": "Quality Checker",
+    "buyer": "Buyer"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "members": "Members",
+    "my_tasks": "My Task",
+    "my_earnings": "My Earnings",
+    "logout": "Logout"
+  }
+}
