@@ -17,7 +17,7 @@ function getAuthToken(): string | null {
   }
 }
 
-export function setAuthToken(token: string): void {
+export function setAuthToken(_token: string): void {
   // No-op — token is managed by Zustand store via setAuth()
   // Kept for backwards compatibility in case any code still calls it
 }
