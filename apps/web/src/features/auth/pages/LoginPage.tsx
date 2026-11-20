@@ -75,6 +75,9 @@ export function LoginPage() {
       // Route based on role
       if (profile.role === "leader") navigate("/leader");
       else if (profile.role === "member") navigate("/member");
+      else if (profile.role === "buyer") navigate("/buyer/orders");
+      else if (profile.role === "approver") navigate("/approver");
+      else if (profile.role === "checker") navigate("/leader/quality");
       else navigate("/select-role");
     } catch (err) {
       setApiError(

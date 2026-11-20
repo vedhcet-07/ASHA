@@ -44,7 +44,7 @@ const roles = [
     description: "Review submitted proof and make quality decisions",
     icon: CheckSquare,
     color: "green",
-    path: "/quality",
+    path: "/leader/quality",
   },
   {
     value: "buyer" as UserRole,
@@ -52,7 +52,7 @@ const roles = [
     description: "Track your order status and delivery record",
     icon: ShoppingBag,
     color: "orange",
-    path: "/buyer",
+    path: "/buyer/orders",
   },
 ];
 
