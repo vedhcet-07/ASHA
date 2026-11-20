@@ -34,7 +34,7 @@ async function request<T>(
   const token = getAuthToken();
   const headers: HeadersInit = {
     "Content-Type": "application/json",
-  };
+  
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
@@ -64,9 +64,15 @@ async function request<T>(
   return data as T;
 }
 
-export const api = {
-  get: <T>(path: string) => request<T>("GET", path),
-  post: <T>(path: string, body?: unknown) => request<T>("POST", path, body),
-  patch: <T>(path: string, body?: unknown) => request<T>("PATCH", path, body),
-  delete: <T>(path: string) => request<T>("DELETE", path),
-};
+import { demoApi } from "../demo/demoMock";
+
+const isDemo = import.meta.env.VITE_DEMO_MODE === "true";
+
+export const api = isDemo ? (demoApi as any) : {
+  get: <T>(path: string) => request<T>('GET', path),
+  post: <T>(path: string, body?: unknown) => request<T>('POST', path, body),
+  patch: <T>(path: string, body?: unknown) => request<T>('PATCH', path, body),
+  delete: <T>(path: string) => request<T>('DELETE', path),
+
+
+
