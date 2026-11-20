@@ -16,7 +16,8 @@ BEGIN
     'FestiveMart Exports',
     '9988776655',
     'ramesh@festivmart.in'
-  );
+  )
+  ON CONFLICT (id) DO NOTHING;
 
   -- ─── Order ───
   INSERT INTO orders (
@@ -33,7 +34,8 @@ BEGIN
     '14, MG Road, Bengaluru, Karnataka 560001',
     'Use natural dye only. Deliver in batches of 50.',
     'REQUESTED'
-  );
+  )
+  ON CONFLICT (id) DO NOTHING;
 
   -- ─── Order Items ───
   INSERT INTO order_items (order_id, product_name, quantity, unit_type, specifications, agreed_unit_price)

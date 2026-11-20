@@ -42,7 +42,17 @@ class LoginRequest(BaseModel):
     @field_validator("email")
     @classmethod
     def email_basic_check(cls, v: str) -> str:
-        return v.strip().lower()
+        v = v.strip().lower()
+        if "@" not in v or "." not in v.split("@")[-1]:
+            raise ValueError("Enter a valid email address")
+        return v
+
+    @field_validator("password")
+    @classmethod
+    def password_not_empty(cls, v: str) -> str:
+        if not v.strip():
+            raise ValueError("Password cannot be empty")
+        return v
 
 
 class SelectRoleRequest(BaseModel):

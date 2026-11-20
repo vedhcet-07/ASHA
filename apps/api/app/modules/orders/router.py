@@ -17,6 +17,7 @@ from .service import (
     get_buyer_or_create,
     get_order_timeline,
     _record_audit,
+    check_and_complete_order,
 )
 
 router = APIRouter(tags=["orders"])
@@ -270,6 +271,9 @@ async def mark_delivered(order_id: str, token: CurrentToken, db: SupabaseClient)
     _require_role(token, db, "leader")
     shg_id = _get_user_shg_id(token.sub, db)
     order = transition_order_status(order_id, shg_id, "DELIVERED", token.sub, db)
+    completion = check_and_complete_order(order_id, shg_id, token.sub, db)
+    if completion:
+        order["status"] = "COMPLETED"
     return success_response(order)
 
 

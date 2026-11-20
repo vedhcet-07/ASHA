@@ -17,8 +17,9 @@ export function BuyerCreateOrderPage() {
   const queryClient = useQueryClient();
   const [apiError, setApiError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [createdOrderId, setCreatedOrderId] = useState<string | null>(null);
 
-  const { register, handleSubmit, control, formState: { errors, isSubmitting } } =
+  const { register, handleSubmit, control, setValue, formState: { errors, isSubmitting } } =
     useForm<CreateOrderInput>({
       resolver: zodResolver(CreateOrderSchema),
       defaultValues: {
@@ -28,11 +29,25 @@ export function BuyerCreateOrderPage() {
 
   const { fields, append, remove } = useFieldArray({ control, name: "items" });
 
+  function fillDemoOrder() {
+    setValue("title", "Festival Canvas Tote Bags & Pouches");
+    const d = new Date();
+    d.setDate(d.getDate() + 21);
+    setValue("required_by_date", d.toISOString().split("T")[0]);
+    setValue("delivery_address", "14, MG Road, Bengaluru, Karnataka 560001");
+    setValue("special_instructions", "Use natural dyes only. Deliver in batches of 50.");
+    setValue("items", [
+      { product_name: "Canvas Tote Bag", quantity: 100, unit_type: "piece", specifications: { size: "14x16 inch", material: "canvas" } },
+      { product_name: "Jute Pouch", quantity: 50, unit_type: "piece", specifications: { size: "8x10 inch", material: "jute" } },
+    ]);
+  }
+
   async function onSubmit(data: CreateOrderInput) {
     setApiError("");
     try {
-      await api.post("/buyers/orders", data);
+      const res = await api.post<{ success: boolean; data: { id: string } }>("/buyers/orders", data);
       queryClient.invalidateQueries({ queryKey: ["buyer-orders"] });
+      setCreatedOrderId(res.data?.id || null);
       setSuccess(true);
     } catch (err) {
       setApiError(err instanceof Error ? err.message : "Failed to place order");
@@ -52,8 +67,13 @@ export function BuyerCreateOrderPage() {
           </Box>
         </Alert>
         <HStack spacing={3}>
-          <Button onClick={() => navigate("/buyer/orders")}>View my orders</Button>
-          <Button variant="outline" onClick={() => setSuccess(false)}>Place another</Button>
+          {createdOrderId && (
+            <Button colorScheme="primary" onClick={() => navigate(`/buyer/orders/${createdOrderId}`)}>
+              Track order status
+            </Button>
+          )}
+          <Button variant="outline" onClick={() => navigate("/buyer/orders")}>View all orders</Button>
+          <Button variant="ghost" onClick={() => setSuccess(false)}>Place another</Button>
         </HStack>
       </VStack>
     );
@@ -75,7 +95,12 @@ export function BuyerCreateOrderPage() {
       <Card borderRadius="card">
         <CardBody p={6}>
           <VStack as="form" spacing={5} onSubmit={handleSubmit(onSubmit)} align="stretch">
-            <Heading size="sm" color="gray.700">Order details</Heading>
+            <HStack justify="space-between" align="center">
+              <Heading size="sm" color="gray.700">Order details</Heading>
+              <Button size="xs" variant="outline" colorScheme="primary" onClick={fillDemoOrder}>
+                Load Demo Example
+              </Button>
+            </HStack>
 
             <FormControl isInvalid={!!errors.title}>
               <FormLabel>What do you need?</FormLabel>

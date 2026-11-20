@@ -33,6 +33,8 @@ export function MyTaskPage() {
   const [rejectReason, setRejectReason] = useState("");
   const [showReject, setShowReject] = useState(false);
   const [actionMsg, setActionMsg] = useState("");
+  const [uploadStatus, setUploadStatus] = useState<"idle" | "uploading" | "success" | "error">("idle");
+  const [uploadError, setUploadError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
   const { data, isLoading } = useQuery({
@@ -125,6 +127,10 @@ export function MyTaskPage() {
             )}
           </HStack>
           <Text fontSize="xl" fontWeight="700" mb={1}>{task.task_name}</Text>
+          <HStack spacing={4} my={2}>
+            <Text fontSize="md" fontWeight="600">Assigned: {allocated} units</Text>
+            <Text fontSize="md" opacity={0.9}>Completed: {completed} units</Text>
+          </HStack>
           {task.required_skill && (
             <Text fontSize="sm" opacity={0.85}>Skill: {task.required_skill}</Text>
           )}
@@ -219,13 +225,31 @@ export function MyTaskPage() {
           <CardBody p={5}>
             <HStack justify="space-between" mb={3}>
               <Text fontWeight="600">Photo proof</Text>
-              <Badge colorScheme="yellow" borderRadius="full" fontSize="xs">Required for acceptance</Badge>
+              <Badge colorScheme="yellow" borderRadius="full" fontSize="xs">Required for quality review</Badge>
             </HStack>
+            {uploadStatus === "success" && (
+              <Alert status="success" borderRadius="btn" mb={3} fontSize="sm">
+                <AlertIcon /> Photo proof uploaded successfully! Awaiting QC review.
+              </Alert>
+            )}
+            {uploadStatus === "error" && (
+              <Alert status="error" borderRadius="btn" mb={3} fontSize="sm">
+                <AlertIcon />
+                <Box flex={1}>
+                  <Text>{uploadError || "Photo upload failed."}</Text>
+                </Box>
+                <Button size="xs" colorScheme="red" variant="outline" onClick={() => fileRef.current?.click()}>
+                  Retry upload
+                </Button>
+              </Alert>
+            )}
             <input type="file" accept="image/*" capture="environment"
               ref={fileRef} style={{ display: "none" }}
               onChange={async (e) => {
                 const file = e.target.files?.[0];
                 if (!file || !task?.id) return;
+                setUploadStatus("uploading");
+                setUploadError("");
                 try {
                   const urlRes = await api.post<{ success: boolean; data: { media_id: string; upload_url: string; storage_path: string } }>(
                     `/member/tasks/${task.id}/proof/upload-url`,
@@ -235,15 +259,18 @@ export function MyTaskPage() {
                   await fetch(upload_url, { method: "PUT", body: file, headers: { "Content-Type": file.type } });
                   await api.post(`/member/tasks/${task.id}/proof/${media_id}/complete`, {});
                   queryClient.invalidateQueries({ queryKey: ["my-tasks"] });
-                  setActionMsg("Photo uploaded!");
-                } catch {
-                  setActionMsg("Photo upload failed. Please try again.");
+                  setUploadStatus("success");
+                  setActionMsg("Photo uploaded successfully!");
+                } catch (err) {
+                  setUploadStatus("error");
+                  setUploadError(err instanceof Error ? err.message : "Photo upload failed. Please try again.");
                 }
               }}
             />
             <Button w="full" size="lg" leftIcon={<Camera size={18} />} variant="outline"
+              isLoading={uploadStatus === "uploading"} loadingText="Uploading photo..."
               onClick={() => fileRef.current?.click()}>
-              Take / upload photo
+              {uploadStatus === "success" ? "Upload another photo" : "Take / upload photo"}
             </Button>
           </CardBody>
         </Card>

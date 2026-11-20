@@ -14,11 +14,60 @@ ORDER_STATUS_TRANSITIONS: dict[str, list[str]] = {
     "IN_PROGRESS":        ["QUALITY_REVIEW", "CANCELLED"],
     "QUALITY_REVIEW":     ["REWORK", "READY", "CANCELLED"],
     "REWORK":             ["QUALITY_REVIEW", "CANCELLED"],
-    "READY":              ["DELIVERED", "CANCELLED"],
+    "READY":              ["DELIVERED", "COMPLETED", "CANCELLED"],
     "DELIVERED":          ["COMPLETED"],
     "CANCELLED":          [],
     "COMPLETED":          [],
 }
+
+
+def check_and_complete_order(order_id: str, shg_id: str, actor_id: str, db: Client) -> dict | None:
+    """
+    Complete order ONLY if both:
+    1. Delivery has been recorded (audit event ORDER_DELIVERED exists or status is DELIVERED)
+    2. Payout sheet has been APPROVED
+    Applies symmetrically regardless of which event occurred first.
+    """
+    deliv = (
+        db.table("audit_events")
+        .select("id")
+        .eq("order_id", order_id)
+        .eq("event_type", "ORDER_DELIVERED")
+        .limit(1)
+        .execute()
+    )
+    order_data = db.table("orders").select("status").eq("id", order_id).single().execute()
+    current_status = order_data.data.get("status") if order_data.data else None
+    has_delivery = bool(deliv.data) or current_status == "DELIVERED"
+
+    payout = (
+        db.table("payout_sheets")
+        .select("id")
+        .eq("order_id", order_id)
+        .eq("status", "APPROVED")
+        .is_("deleted_at", "null")
+        .limit(1)
+        .execute()
+    )
+    has_payout_approval = bool(payout.data)
+
+    if has_delivery and has_payout_approval:
+        if current_status != "COMPLETED":
+            db.table("orders").update({"status": "COMPLETED"}).eq("id", order_id).execute()
+            _record_audit(
+                db=db,
+                shg_id=shg_id,
+                order_id=order_id,
+                actor_id=actor_id,
+                event_type="ORDER_COMPLETED",
+                entity_type="order",
+                entity_id=order_id,
+                old_values={"status": current_status},
+                new_values={"status": "COMPLETED"},
+                reason="Both delivery and payout approval completed",
+            )
+            return {"status": "COMPLETED"}
+    return None
 
 
 def generate_order_number() -> str:

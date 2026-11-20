@@ -81,8 +81,12 @@ export function CostingPage() {
     <VStack spacing={6} align="stretch">
       <Box>
         <Heading size="lg">Costing Sheet</Heading>
-        <Text color="gray.500" mt={1}>Enter costs to calculate selling price and margin</Text>
+        <Text color="gray.500" mt={1}>Enter costs to calculate selling price and markup</Text>
       </Box>
+
+      <Badge colorScheme="yellow" px={3} py={1} borderRadius="btn" fontSize="xs" alignSelf="start">
+        All payments and calculations are SIMULATED
+      </Badge>
 
       {error && <Alert status="error" borderRadius="btn"><AlertIcon />{error}</Alert>}
 
@@ -106,18 +110,18 @@ export function CostingPage() {
                 <NumberInputField borderRadius="input" />
               </NumberInput>
             </FormControl>
-            <FormControl maxW="180px">
-              <FormLabel fontSize="sm">Margin type</FormLabel>
+            <FormControl maxW="200px">
+              <FormLabel fontSize="sm">Margin / Markup type</FormLabel>
               <Select borderRadius="input" value={marginType}
                 onChange={e => setMarginType(e.target.value as typeof marginType)}>
-                <option value="PERCENTAGE">Percentage (%)</option>
+                <option value="PERCENTAGE">Markup (% on cost)</option>
                 <option value="FIXED_PER_UNIT">Fixed per unit (₹)</option>
                 <option value="MANUAL">Manual price (₹)</option>
               </Select>
             </FormControl>
-            <FormControl maxW="130px">
+            <FormControl maxW="150px">
               <FormLabel fontSize="sm">
-                {marginType === "PERCENTAGE" ? "Margin %" : marginType === "FIXED_PER_UNIT" ? "Per unit (₹)" : "Final price (₹)"}
+                {marginType === "PERCENTAGE" ? "Markup % on cost" : marginType === "FIXED_PER_UNIT" ? "Per unit (₹)" : "Final price (₹)"}
               </FormLabel>
               <NumberInput min={0} value={marginValue} onChange={(_, v) => setMarginValue(isNaN(v) ? 0 : v)}>
                 <NumberInputField borderRadius="input" />

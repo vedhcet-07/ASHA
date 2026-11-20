@@ -236,3 +236,25 @@ class TestApprovalBusinessRules:
         """Member payout line must require auth — never exposed without login."""
         res = client.get("/api/v1/member/payouts/fake-sheet")
         assert res.status_code == 401
+
+    def test_exact_18_accepted_pieces_at_20_inr(self):
+        """Phase 1 check: 18 accepted pieces × ₹20 = ₹360 exactly."""
+        line = calculate_line_payout(_task(accepted=18, rework=2, rejected=0, rate=20.0))
+        assert line.payable_amount == 360.0
+        assert "18 accepted units × ₹20.00 = ₹360.00" in line.explanation
+
+    def test_recalculation_does_not_double_earnings(self):
+        """Running calculation multiple times on same input is idempotent and deterministic."""
+        tasks = [
+            TaskPayoutInput("t1", "m1", "Lakshmi", 20, 18, 18, 0, 0, "PER_PIECE", 20.0),
+        ]
+        res1 = calculate_payout_sheet(tasks)
+        res2 = calculate_payout_sheet(tasks)
+        assert res1.total_payable_amount == 360.0
+        assert res2.total_payable_amount == 360.0
+        assert res1.total_payable_amount == res2.total_payable_amount
+
+    def test_payout_sheet_route_requires_auth(self):
+        """Leader/approver payout sheet route requires auth."""
+        res = client.get("/api/v1/orders/fake-id/payout")
+        assert res.status_code == 401

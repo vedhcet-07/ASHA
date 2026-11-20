@@ -6,10 +6,19 @@ AI proposes. Rules calculate. Humans approve.
 """
 
 from dataclasses import dataclass
+from decimal import Decimal, ROUND_HALF_UP
 from typing import Literal
 
 
 PaymentBasis = Literal["PER_PIECE", "PER_HOUR", "FIXED"]
+
+
+def _to_decimal(val: float | int | str) -> Decimal:
+    return Decimal(str(val))
+
+
+def _round_inr(d: Decimal) -> float:
+    return float(d.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
 
 
 @dataclass
@@ -58,17 +67,20 @@ def calculate_line_payout(task: TaskPayoutInput) -> PayoutLineResult:
     Only accepted_quantity is payable — rework and rejected are excluded.
     """
     if task.payment_basis == "PER_PIECE":
-        payable = round(task.accepted_quantity * task.rate, 2)
+        payable_dec = _to_decimal(task.accepted_quantity) * _to_decimal(task.rate)
+        payable = _round_inr(payable_dec)
         explanation = (
             f"{task.accepted_quantity} accepted units × ₹{task.rate:.2f} = ₹{payable:.2f}"
         )
     elif task.payment_basis == "PER_HOUR":
-        payable = round(task.hours * task.rate, 2)
+        payable_dec = _to_decimal(task.hours) * _to_decimal(task.rate)
+        payable = _round_inr(payable_dec)
         explanation = (
             f"{task.hours} approved hours × ₹{task.rate:.2f}/hr = ₹{payable:.2f}"
         )
     else:  # FIXED
-        payable = round(task.rate, 2)
+        payable_dec = _to_decimal(task.rate)
+        payable = _round_inr(payable_dec)
         explanation = f"Fixed payment: ₹{payable:.2f}"
 
     # Rework not paid until re-accepted
@@ -108,7 +120,8 @@ def calculate_payout_sheet(tasks: list[TaskPayoutInput]) -> PayoutSheetResult:
         line = calculate_line_payout(task)
         lines.append(line)
 
-    total_payable = round(sum(l.payable_amount for l in lines), 2)
+    total_payable_dec = sum((_to_decimal(l.payable_amount) for l in lines), Decimal("0.00"))
+    total_payable = _round_inr(total_payable_dec)
     total_accepted = sum(l.accepted_quantity for l in lines)
 
     if total_payable == 0:

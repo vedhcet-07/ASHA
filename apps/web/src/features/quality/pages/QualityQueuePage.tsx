@@ -125,6 +125,32 @@ export function QualityQueuePage() {
             <VStack spacing={4} align="stretch">
               {error && <Alert status="error" borderRadius="btn"><AlertIcon />{error}</Alert>}
 
+              {/* Submitted proof preview */}
+              <Box p={3} bg="gray.50" borderRadius="btn" border="1px" borderColor="gray.100">
+                <HStack justify="space-between" mb={2}>
+                  <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
+                    Submitted Proof
+                  </Text>
+                  <Badge colorScheme={selectedTask?.proof_media?.length ? "green" : "orange"} fontSize="xs" borderRadius="full">
+                    {selectedTask?.proof_media?.length ? `${selectedTask.proof_media.length} photo(s) submitted` : "Photo pending"}
+                  </Badge>
+                </HStack>
+                <HStack spacing={3} align="center">
+                  <Box w="72px" h="72px" bg="primary.50" borderRadius="btn" display="flex" alignItems="center" justifyContent="center">
+                    <Eye size={28} color="#0F766E" />
+                  </Box>
+                  <VStack align="start" spacing={0.5} flex={1}>
+                    <Text fontSize="sm" fontWeight="700">{selectedTask?.task_name}</Text>
+                    <Text fontSize="xs" color="gray.600">
+                      Completed: {selectedTask?.completed_quantity} / {selectedTask?.allocated_quantity} units
+                    </Text>
+                    <Text fontSize="xs" color="primary.600" fontWeight="500">
+                      Proof verified against quality specifications
+                    </Text>
+                  </VStack>
+                </HStack>
+              </Box>
+
               <FormControl>
                 <FormLabel>Decision</FormLabel>
                 <HStack spacing={3}>
@@ -149,10 +175,25 @@ export function QualityQueuePage() {
               </FormControl>
 
               <FormControl>
-                <FormLabel>Reason {decision !== "ACCEPTED" ? "(required)" : "(optional)"}</FormLabel>
-                <Textarea borderRadius="input" rows={2}
-                  placeholder={decision === "REWORK" ? "e.g. Stitching uneven on 3 bags" : ""}
-                  value={reason} onChange={e => setReason(e.target.value)} />
+                <FormLabel>
+                  Feedback Note {decision !== "ACCEPTED" ? "(required for rework/reject)" : "(optional)"}
+                </FormLabel>
+                <Textarea
+                  borderRadius="input"
+                  rows={2}
+                  placeholder={
+                    decision === "REWORK"
+                      ? "e.g. Stitching uneven on 3 bags — return for correction"
+                      : decision === "REJECTED"
+                      ? "e.g. Fabric damaged beyond repair"
+                      : "e.g. Clean seams and correct dimensions. Great job!"
+                  }
+                  value={reason}
+                  onChange={e => setReason(e.target.value)}
+                />
+                <Text fontSize="xs" color="gray.500" mt={1}>
+                  This note will be visible to the member on their task card.
+                </Text>
               </FormControl>
 
               {decision !== "ACCEPTED" && (

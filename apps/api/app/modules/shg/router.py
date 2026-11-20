@@ -253,14 +253,16 @@ def _get_user_shg_id(user_id: str, db) -> str:
     return result.data[0]["shg_id"]
 
 
-def _require_role(token, db, required_role: str) -> None:
+def _require_role(token, db, required_role: str | list[str]) -> None:
     result = (
         db.table("profiles").select("role").eq("id", token.sub).single().execute()
     )
-    if not result.data or result.data["role"] != required_role:
+    allowed = [required_role] if isinstance(required_role, str) else required_role
+    if not result.data or result.data["role"] not in allowed:
+        roles_str = " or ".join(f"'{r}'" for r in allowed)
         raise AshaAPIError(
             code="FORBIDDEN",
-            message=f"This action requires the '{required_role}' role",
+            message=f"This action requires the {roles_str} role",
             status_code=403,
         )
 

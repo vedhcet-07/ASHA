@@ -33,7 +33,8 @@ BEGIN
     'Mysuru',
     'Karnataka',
     15.00
-  );
+  )
+  ON CONFLICT (id) DO NOTHING;
 
   v_shg_id := 'a1b2c3d4-0001-0001-0001-000000000001';
 

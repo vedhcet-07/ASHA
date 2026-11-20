@@ -89,7 +89,12 @@ export function PayoutSheetPage() {
 
       <HStack justify="space-between" flexWrap="wrap" gap={3}>
         <Box>
-          <Heading size="lg">Payout Sheet</Heading>
+          <HStack spacing={2} align="center">
+            <Heading size="lg">Payout Sheet</Heading>
+            <Badge colorScheme="yellow" px={2} py={0.5} borderRadius="full" fontSize="xs">
+              SIMULATED
+            </Badge>
+          </HStack>
           <Text color="gray.500" mt={1}>v{sheet.version} · {totalLines} members</Text>
         </Box>
         <HStack spacing={2}>

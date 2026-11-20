@@ -5,7 +5,7 @@ from fastapi import APIRouter, status
 from app.core.dependencies import SupabaseClient, CurrentToken, success_response
 from app.core.errors import AshaAPIError
 from app.modules.shg.router import _get_user_shg_id, _require_role
-from app.modules.orders.service import get_order_or_404, _record_audit
+from app.modules.orders.service import get_order_or_404, _record_audit, check_and_complete_order
 from app.rules.payout import calculate_payout_sheet, TaskPayoutInput
 from .schemas import (
     CalculatePayoutRequest,
@@ -33,6 +33,23 @@ async def calculate_payout(
     shg_id = _get_user_shg_id(token.sub, db)
     get_order_or_404(order_id, shg_id, db)
 
+    # Check if an approved payout sheet already exists
+    approved = (
+        db.table("payout_sheets")
+        .select("id")
+        .eq("order_id", order_id)
+        .eq("status", "APPROVED")
+        .is_("deleted_at", "null")
+        .limit(1)
+        .execute()
+    )
+    if approved.data:
+        raise AshaAPIError(
+            code="CONFLICT",
+            message="Payout sheet for this order has already been approved and cannot be modified.",
+            status_code=409,
+        )
+
     # Build rate lookup
     rate_map = {r.task_id: r for r in body.task_rates}
 
@@ -42,11 +59,17 @@ async def calculate_payout(
         .eq("order_id", order_id).is_("deleted_at", "null").execute()
 
     payout_inputs: list[TaskPayoutInput] = []
+    missing_rate_tasks: list[str] = []
+
     for task in tasks_result.data or []:
+        assignments = task.get("task_assignments") or []
+        if not assignments:
+            continue
         rate_info = rate_map.get(task["id"])
         if not rate_info:
+            missing_rate_tasks.append(task.get("task_name") or task["id"])
             continue
-        for assign in task.get("task_assignments") or []:
+        for assign in assignments:
             member = assign.get("shg_members") or {}
             payout_inputs.append(TaskPayoutInput(
                 task_id=task["id"],
@@ -61,6 +84,13 @@ async def calculate_payout(
                 rate=rate_info.rate,
                 hours=rate_info.hours,
             ))
+
+    if missing_rate_tasks:
+        raise AshaAPIError(
+            code="VALIDATION_ERROR",
+            message=f"Missing payout rate for tasks: {', '.join(missing_rate_tasks)}. Every task with eligible work must have an explicit rate.",
+            status_code=422,
+        )
 
     if not payout_inputs:
         raise AshaAPIError(
@@ -131,6 +161,7 @@ async def calculate_payout(
 @router.get("/orders/{order_id}/payout")
 async def get_payout_sheet(order_id: str, token: CurrentToken, db: SupabaseClient):
     """Leader/approver gets the full payout sheet."""
+    _require_role(token, db, ["leader", "approver"])
     shg_id = _get_user_shg_id(token.sub, db)
     get_order_or_404(order_id, shg_id, db)
 
@@ -258,19 +289,25 @@ async def approve_payout(order_id: str, body: ApprovePayoutRequest, token: Curre
         "note": body.note,
     }).execute()
 
-    # Transition order to COMPLETED
-    db.table("orders").update({"status": "COMPLETED"}).eq("id", order_id).execute()
-
     _record_audit(
         db=db, shg_id=shg_id, order_id=order_id, actor_id=token.sub,
         event_type="PAYOUT_APPROVED", entity_type="payout_sheet",
         entity_id=body.payout_sheet_id,
         new_values={"status": "APPROVED"},
     )
+
+    completion = check_and_complete_order(order_id, shg_id, token.sub, db)
+    order_status = "COMPLETED" if completion else "APPROVED"
+
     return success_response({
         "payout_sheet_id": body.payout_sheet_id,
         "status": "APPROVED",
-        "message": "Payout approved. Order is now COMPLETED. All payments are SIMULATED.",
+        "order_status": order_status,
+        "message": (
+            "Payout approved. Order is COMPLETED. All payments are SIMULATED."
+            if completion
+            else "Payout approved. Order awaiting delivery confirmation. All payments are SIMULATED."
+        ),
     })
 
 

@@ -5,6 +5,7 @@ import {
   Text,
   VStack,
   HStack,
+  Flex,
   Badge,
   Card,
   CardBody,
@@ -54,6 +55,28 @@ function StatCard({
       </CardBody>
     </Card>
   );
+}
+
+function getNextAction(order: Order): { label: string; to: string; colorScheme: string } {
+  switch (order.status) {
+    case "REQUESTED":
+      return { label: "Review & Accept", to: `/leader/orders/${order.id}`, colorScheme: "primary" };
+    case "REVIEWED":
+    case "PLANNING":
+      return { label: "Production Plan", to: `/leader/orders/${order.id}/plan`, colorScheme: "purple" };
+    case "ALLOCATION_PENDING":
+      return { label: "Allocate Tasks", to: `/leader/orders/${order.id}/allocation`, colorScheme: "blue" };
+    case "IN_PROGRESS":
+    case "QUALITY_REVIEW":
+    case "REWORK":
+      return { label: "Review Quality", to: `/leader/quality`, colorScheme: "teal" };
+    case "READY":
+      return { label: "Costing Sheet", to: `/leader/orders/${order.id}/costing`, colorScheme: "green" };
+    case "DELIVERED":
+      return { label: "Payout Sheet", to: `/leader/orders/${order.id}/payout`, colorScheme: "orange" };
+    default:
+      return { label: "View Order", to: `/leader/orders/${order.id}`, colorScheme: "gray" };
+  }
 }
 
 export function LeaderDashboard() {
@@ -124,23 +147,68 @@ export function LeaderDashboard() {
         </SimpleGrid>
       )}
 
-      {/* Pending actions */}
+      {/* Pending actions & active orders */}
       <Card borderRadius="card">
         <CardBody p={5}>
-          <Heading size="sm" mb={4}>
-            Pending actions
-          </Heading>
+          <HStack justify="space-between" mb={4}>
+            <Heading size="sm">
+              Active Orders & Pending Actions
+            </Heading>
+            <Badge colorScheme="primary" borderRadius="full" px={2}>
+              {activeOrders.length} active
+            </Badge>
+          </HStack>
           <VStack align="stretch" spacing={3}>
-            <HStack
-              p={3}
-              bg="primary.50"
-              borderRadius="btn"
-              justify="space-between"
-            >
-              <Text fontSize="sm" color="gray.700">
-                No orders yet. Create your first order or add members.
-              </Text>
-            </HStack>
+            {activeOrders.length === 0 ? (
+              <HStack
+                p={4}
+                bg="primary.50"
+                borderRadius="btn"
+                justify="space-between"
+              >
+                <Text fontSize="sm" color="gray.700">
+                  No active orders right now. Create an order or add members to begin.
+                </Text>
+              </HStack>
+            ) : (
+              activeOrders.map((order) => {
+                const action = getNextAction(order);
+                return (
+                  <Flex
+                    key={order.id}
+                    p={4}
+                    bg="gray.50"
+                    borderRadius="btn"
+                    justify="space-between"
+                    align="center"
+                    flexWrap="wrap"
+                    gap={3}
+                  >
+                    <Box minW="180px">
+                      <HStack spacing={2} mb={1}>
+                        <Text fontWeight="700" fontSize="md">
+                          {order.title}
+                        </Text>
+                        <Badge colorScheme="blue" fontSize="xs" borderRadius="full">
+                          {order.status}
+                        </Badge>
+                      </HStack>
+                      <Text fontSize="xs" color="gray.500">
+                        {order.order_number} • Due {order.required_by_date}
+                      </Text>
+                    </Box>
+                    <Button
+                      as={Link}
+                      to={action.to}
+                      size="sm"
+                      colorScheme={action.colorScheme}
+                    >
+                      {action.label}
+                    </Button>
+                  </Flex>
+                );
+              })
+            )}
           </VStack>
         </CardBody>
       </Card>
