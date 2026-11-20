@@ -6,7 +6,6 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api/v1";
 
 function getAuthToken(): string | null {
-  // Read from Zustand persist storage — single source of truth
   try {
     const raw = localStorage.getItem("asha-auth");
     if (!raw) return null;
@@ -19,7 +18,6 @@ function getAuthToken(): string | null {
 
 export function setAuthToken(_token: string): void {
   // No-op — token is managed by Zustand store via setAuth()
-  // Kept for backwards compatibility in case any code still calls it
 }
 
 export function clearAuthToken(): void {
@@ -32,9 +30,10 @@ async function request<T>(
   body?: unknown
 ): Promise<T> {
   const token = getAuthToken();
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     "Content-Type": "application/json",
-  
+  };
+
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
@@ -68,11 +67,12 @@ import { demoApi } from "../demo/demoMock";
 
 const isDemo = import.meta.env.VITE_DEMO_MODE === "true";
 
-export const api = isDemo ? (demoApi as any) : {
-  get: <T>(path: string) => request<T>('GET', path),
-  post: <T>(path: string, body?: unknown) => request<T>('POST', path, body),
-  patch: <T>(path: string, body?: unknown) => request<T>('PATCH', path, body),
-  delete: <T>(path: string) => request<T>('DELETE', path),
+const realApi = {
+  get:    <T>(path: string)                 => request<T>("GET",    path),
+  post:   <T>(path: string, body?: unknown) => request<T>("POST",   path, body),
+  patch:  <T>(path: string, body?: unknown) => request<T>("PATCH",  path, body),
+  delete: <T>(path: string)                 => request<T>("DELETE", path),
+};
 
-
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const api: typeof realApi = isDemo ? (demoApi as any) : realApi;
