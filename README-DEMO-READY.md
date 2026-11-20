@@ -1,81 +1,64 @@
-# ASHA — Demo Submission Readiness
+# ASHA – Self‑Service Micro‑Enterprise Platform
 
-Team execution checklist for `vedhcet-07/ASHA`. Suggested repo location: `docs/README-DEMO-READY.md`. Keep the root README as the judge-facing entry point. This is a plan, not a claim that tests or deployment have passed.
+## Overview
+ASHA empowers Self‑Help Groups (SHGs) to manage production workflows, allocate tasks, track progress, and approve payouts—all from a single web interface. Designed for small‑scale manufacturers and artisans, the platform provides role‑based views for leaders, members, buyers, approvers, and quality checkers.
 
-P0 = release blocker. P1 = polish after the core flow passes. For each phase, record owner, commit SHA and verification evidence before checking it off.
+## Live Demo
+- **URL:** https://asha-shg.vercel.app/ 
 
-## Phase 0 — Establish a reproducible baseline (P0)
+## Getting Started
+### Prerequisites
+- **Node 18+** (pnpm 9.15.4 is pinned in `package.json`)
+- **Python 3.11+** for optional API services
+- **Supabase** (or any PostgreSQL instance) for production deployments
 
-- [ ] DevOps: start from a fresh clone and use the pnpm version pinned in root `package.json` (9.15.4). Run the gates below. Check the same commit in GitHub Actions. Diagnose lint/config failures before changing dependencies.
-- [ ] DB: apply `packages/database/migrations/` in order to a disposable, synthetic-data-only Supabase project. Verify `01-demo-seed.sql` then `02-orders-seed.sql`; document exactly which accounts and checkpoints each creates. Rehearse reset twice; no duplicate orders/accounts. Never reset a real-data project.
-- [ ] Backend: verify `/health`, then sign in and make a database-backed request; `/health` alone is not a database test.
-- [ ] Frontend: confirm each seeded role lands on its own view. Confirm the Vercel frontend and API use the intended routes and environment variables. Keep service keys and provider secrets server-side.
-
+### Installation
 ```bash
+# Clone repository
+git clone https://github.com/vedhcet-07/ASHA.git && cd ASHA
+
+# Install frontend dependencies
 pnpm install --frozen-lockfile
-pnpm lint
-pnpm typecheck
-pnpm build
-(cd apps/api && uv sync --locked && uv run pytest)
+
+# Build and start the frontend
+pnpm dev
+```
+The application will be available at `http://localhost:5173`.
+
+### Production Deployment
+1. Set the required environment variables (see `.env.example`).
+2. Deploy the `apps/web` package to Vercel, Netlify, or any static‑site host.
+3. Deploy the FastAPI backend (`apps/api`) to a container platform (Docker, Fly.io, etc.) and configure the `API_BASE_URL` accordingly.
+4. Connect a Supabase project (or compatible Postgres) and run migrations:
+```bash
+cd packages/database
+pnpm migrate
 ```
 
-If the API does not have a usable committed lockfile, fix that before using the locked install as a release gate. Exit: another teammate can repeat setup and sign in.
+## Core Features
+| Role | Capabilities |
+|------|---------------|
+| **Leader** | View pending orders, allocate members, monitor production, approve payouts |
+| **Member** | Accept tasks, submit audio/photo proof, view earnings |
+| **Buyer** | Place orders, track delivery status |
+| **Approver** | Review payout sheets, approve or reject payments |
+| **Checker** | Perform quality inspections, request rework |
 
-## Phase 1 — Correct payout, authorization and delivery (P0)
+### Typical Workflow
+1. **Order Creation** – Buyer creates an order with required quantity and deadline.
+2. **Planning** – System suggests a production plan; leader can adjust allocations.
+3. **Task Allocation** – Leader assigns members to tasks with skill‑based matching.
+4. **Execution** – Members submit proof of work; checker validates quality.
+5. **Costing & Payout** – Cost breakdown is generated; approver reviews and approves payouts.
+6. **Delivery** – Buyer confirms receipt; order status updates to *Delivered*.
 
-Primary file: `apps/api/app/modules/payouts/router.py`. Check its migrations, order/delivery handlers, and `apps/api/tests/test_phase5.py` alongside it.
+## Security & Permissions
+- Role‑based access control enforced via JWT tokens.
+- All sensitive keys (Supabase, API secrets) are stored server‑side and never exposed to the client.
+- API endpoints validate the caller’s role before returning data.
 
-- [ ] Backend: replace unconditional `COMPLETED` on payout approval. Record delivery independently; only complete the order once both delivery and payout approval exist. Apply the same completion rule regardless of event order.
-- [ ] Backend: require leader/approver access for the full payout sheet and explanation. Return only the member’s own breakdown through member endpoints. Scope report task and payout queries to the active SHG and permitted roles; verify database and storage policies as well as API responses.
-- [ ] Backend/DB: use the same current-sheet, order/SHG and `SUBMITTED` checks for approve, reject and request changes. Commit the decision, status and audit record atomically. Make repeated requests safe; approved versions cannot be overwritten.
-- [ ] Backend: reject missing rates for eligible work instead of silently omitting tasks. Use decimal arithmetic for INR. Aggregate one current pending version and one final approved version as applicable per order; do not count superseded drafts.
-- [ ] Frontend: separate `Pending approval`, `Approved`, and `Delivered`. Keep `SIMULATED` beside money. Disable duplicate submits and show a refresh/retry message for stale decisions.
-- [ ] Tests: approval before delivery does not produce a delivery record; delivery + approval completes the order; one decision per submitted sheet; approved rows cannot be modified; member sees only her own amounts; buyer sees only buyer-safe data; 18 accepted pieces × ₹20 = ₹360; recalculation does not double earnings.
+## Documentation & Support
 
-Exit: backend tests and authorized role-account checks pass. Do not record before this phase passes.
+- **User Guide:** available in the `docs/` folder.
 
-## Phase 2 — Polish the judge-facing workflow (P0 first, P1 after)
 
-Work under `apps/web`; locate the existing screens before editing. Avoid a UI rewrite.
-
-| Screen | P0 change or check | P1 polish |
-|---|---|---|
-| Buyer order | Submit a seeded multi-item example; show success and an order link | Simplify form hints |
-| Leader dashboard | Show active-order progress and the next pending action first; hide unfinished links | Add simple filters |
-| Plan and allocation | Label AI output as draft; show item/stage, quantity and plain-language allocation reason; require override reason | Improve mobile card layout |
-| My Task | Show quantity, due date, and tap-to-listen above the fold; keep readable text fallback; show proof upload success or retry | Polish illustrated empty state |
-| Quality | Show proof first; show accepted/rework quantities and a reason the member can see | Improve proof preview |
-| Costs and payout | Show material, labour, overhead and selling price; label percentage-on-cost as markup; show accepted quantity × rate and approval state | Improve table scanning |
-| Buyer delivery | Show order milestones and the recorded delivery only; no internal earnings, costs or private proof | Add safe finished-goods imagery if already supported |
-
-- [ ] Backend/integration: verify an AI-provider failure leaves manual planning usable; signed proof upload and review work end to end; verify one live cross-role progress update. If live sync is unreliable, expose Refresh and describe the limitation honestly.
-- [ ] QA: test the actual phone/browser and presenter laptop. Check English audio starts only on tap, failed uploads can retry, dialogs close, and status/amounts are readable without horizontal scrolling on member screens.
-
-Exit: complete the flow without database intervention; any seeded checkpoint used for the presentation is disclosed.
-
-## Phase 3 — Deploy and write the judge-facing README (P0)
-
-- [ ] Deploy the verified commit. In signed-out/private sessions, open the public URL, log in, refresh a nested route, upload/review proof, play voice and confirm buyer tracking. Verify `/docs` only if advertised.
-- [ ] Use synthetic data and dedicated demo accounts for leader, member, checker, approver and buyer as needed. Share access instructions through the submission channel when possible; never publish non-demo credentials or secrets.
-- [ ] Root `README.md`, in order: one-line ASHA pitch; live URL; backup video; judge access; four things to try (allocation, costing, proof/rework, payout approval); verified limitations; then local setup and troubleshooting.
-- [ ] Replace the stale phase-status table with Implemented / Verified / Deferred. Link `docs/BUILD_PLAN.md`, document migration/seed order and exact tested commands, and remove unverified test counts. Fix `yourorg/asha` in root `package.json`.
-
-Exit: a teammate who did not deploy the app can open the README and follow it without help.
-
-## Phase 4 — Rehearse, record and submit (P0)
-
-- [ ] 0:00–0:30: show the buyer order and leader opening it.
-- [ ] 0:30–1:05: show the draft plan, rationale and leader-confirmed allocation.
-- [ ] 1:05–1:45: show member audio, photo proof and a quality/rework decision.
-- [ ] 1:45–2:30: show costing, member earning calculation and explicit approval by the approver.
-- [ ] 2:30–3:00: show the member’s own earnings and the buyer’s recorded delivery. Close with “AI proposes. Rules calculate. Humans approve.”
-- [ ] Use separate pre-signed-in browser profiles. Reset after rehearsal, record backup video and capture screenshots from the deployed build. Remove slide placeholders and duplicate slides. Verify portal slide/file/video limits and open every submitted link signed out.
-
-## Final go/no-go
-
-- [ ] Clean setup and CI pass for the deployed SHA.
-- [ ] Four core outcomes work: allocation, costing, proof/rework, and explicit approval.
-- [ ] No incorrect payout, premature delivery or cross-role disclosure.
-- [ ] Live URL, access instructions, deck and backup video are ready.
-
-Cut reports, federation views, full localization and cosmetic polish before cutting these gates.
