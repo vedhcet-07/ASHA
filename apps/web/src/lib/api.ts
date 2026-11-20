@@ -48,6 +48,12 @@ async function request<T>(
   const data = await response.json();
 
   if (!response.ok) {
+    if (response.status === 401 && !path.startsWith("/auth/")) {
+      localStorage.removeItem("asha-auth");
+      if (window.location.pathname !== "/login") {
+        window.location.href = "/login";
+      }
+    }
     const error = new Error(
       data?.error?.message || data?.detail || `Request failed: ${response.status}`
     );

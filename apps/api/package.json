@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "dev": "python -m uvicorn app.main:app --reload --port 8000",
+    "dev": "python run_dev.py",
     "lint": "ruff check .",
     "format": "black .",
     "typecheck": "mypy .",
